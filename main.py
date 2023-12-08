@@ -2,22 +2,26 @@ from modules import *
 import pygame
 import pygame_widgets as pw
 import time
+import random
 
 class Game:
     def __init__(self):
-        self.width = 560
-        self.height = 500
+        pygame.init()
+        pygame.font.init()
+
+        self.width = 600
+        self.height = 600
 
         self.running = True
-        self.display = None
+        self.display = pygame.display.set_mode((self.width, self.height))
 
         self.isOver = False
         
         # jogadores
-        self.p1 = None
-        self.p2 = None
+        self.p1 = Player()
+        self.p2 = Player()
 
-        self.activePlayer = None
+        self.activePlayer = self.p1
         self.turn = 1
 
         self.cards = []
@@ -26,14 +30,10 @@ class Game:
         self.c1 = None
         self.c2 = None
 
-        self.font = None
+        self.font = pygame.font.SysFont('Comic Sans MS', 30)
 
-        self.isMatch = False
 
         # self.count = 0
-
-        self.clock = None 
-
 
     def changeTurn(self):
         if self.turn == 1:
@@ -45,35 +45,41 @@ class Game:
             self.turn = 1
 
     def onInit(self):
-        pygame.init()
-        pygame.font.init()
 
-        self.clock = pygame.time.Clock()
-        self.display = pygame.display.set_mode((self.width, self.height))
         self.running = True
+        self.cards = []
 
-        self.p1 = Player()
-        self.p2 = Player()
-
-        self.activePlayer = self.p1
-
+        value_dict = {0: ["A", 0], 1: ["B", 0], 2: ["C", 0], 3: ["D", 0], 4: ["E", 0], 5: ["1", 0], 6: ["2", 0], 7: ["3", 0], 8: ["4", 0], 9: ["5", 0], 10: ["6", 0], 11: ["7", 0], 12: ["8", 0], 13: ["9", 0]}
         dx1=0
         dx2=0
+        dx3=0
+        dx4=0
 
-        #TODO embaralhar as cartas
-        for i in range(14):
+        for i in range(len(value_dict)*2):
+
+            v = random.randint(0, len(value_dict) - 1)
+            print(i, v)
+            while value_dict[v][1] >= 2:
+                v = random.randint(0, len(value_dict) - 1)
+                print("tentando novamente...")
             
-            if i<7:
-                new_card = Card(i, 30+dx1, 50)
-                dx1+=75
-            else:
-                new_card = Card(i-7, 30+dx2, 130)
-                dx2+=75
 
+            if i < len(value_dict)/2:
+                new_card = Card(value_dict[v][0], 30+dx1, 50)
+                dx1+=75
+            elif i < len(value_dict):
+                new_card = Card(value_dict[v][0], 30+dx2, 130)
+                dx2+=75
+            elif i < 1.5*len(value_dict):
+                new_card = Card(value_dict[v][0], 30+dx3, 230)
+                dx3+=75
+            else:
+                new_card = Card(value_dict[v][0], 30+dx4, 330)
+                dx4+=75
+
+            value_dict[v][1] += 1
             self.cards.append(new_card)
 
-        
-        self.font = pygame.font.SysFont('Comic Sans MS', 30)
     
     def onCleanUp(self):
         pygame.quit()
@@ -106,6 +112,8 @@ class Game:
 
                         self.p1.setScoreZero()
                         self.p2.setScoreZero()
+                        
+                        self.onInit()
                                     
 
                 for card in self.cards:
@@ -129,11 +137,9 @@ class Game:
                             if self.c1.getValue() != self.c2.getValue():
                                 print("ERROUUUU")
                                 
-                                #TODO delay até a carta virar novamente
-                                # self.clock.tick(30)
                                 self.onRender()
                                 time.sleep(1)
-                                
+
                                 self.c1.restore()
                                 self.c2.restore()
 
@@ -141,9 +147,6 @@ class Game:
                                 
                             else:
                                 print("ACERTOOOU")
-                                self.c1.setIsMatchTrue()
-                                self.c2.setIsMatchTrue()
-                                self.isMatch = True
 
                                 if self.turn == 1:
                                     print("limpa 1")
@@ -156,12 +159,6 @@ class Game:
                                 
                             self.c1 = None
                             self.c2 = None
-
-
-
-
-
-                            
 
     def onRender(self):
         for card in self.cards:
@@ -201,11 +198,10 @@ class Game:
                 self.display.blit(self.font.render('PLAYER 2 GANHOU!', False, (0, 0, 255)), (self.width/3,400))
 
             pygame.draw.rect(self.display, (170, 170, 170), pygame.Rect(2*self.width/5-35, self.height/2, 200, 30))
-            self.display.blit(self.font.render('jogar novamente', False, (10, 10, 10)), (2*self.width/5 - 20, self.height/2+5))       
+            self.display.blit(self.font.render('jogar novamente', False, (10, 10, 10)), (2*self.width/5 - 20, self.height/2+5))
         
         pygame.display.flip()
             
-
     def onLoop(self):
         self.isOver = True
         for card in self.cards:
