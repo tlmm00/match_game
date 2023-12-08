@@ -20,7 +20,7 @@ class Card:
         self.show = False
         self.x = x
         self.y = y
-        self.color = (255, 255, 255)
+        self.color = (255, 0, 0)
         
     def restore(self):
         self.show = False
