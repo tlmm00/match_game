@@ -1,6 +1,5 @@
 from modules import *
 import pygame
-import pygame_widgets as pw
 import time
 import random
 
@@ -55,7 +54,7 @@ class Game:
         for i in range(len(value_dict)*2):
 
             v = random.randint(0, len(value_dict) - 1)
-            print(i, v)
+            
             while value_dict[v][1] >= 2:
                 v = random.randint(0, len(value_dict) - 1)            
 
@@ -118,20 +117,15 @@ class Game:
                     if (x>minX and x<maxX and y>minY and y<maxY) and not isTurned:
                         
                         if self.c1==None:
-                            print("carta 2 selecionada")
                             self.c1 = card
                             self.c1.onClick()
-                            print(self.c1.getValue())
+
                         elif self.c2==None and card!=self.c1:
-                            print("carta 2 selecionada")
                             self.c2 = card
                             self.c2.onClick()
-                            print(self.c2.getValue())
                         
                         if self.c1!=None and self.c2!=None:
                             if self.c1.getValue() != self.c2.getValue():
-                                print("ERROUUUU")
-                                
                                 self.onRender()
                                 time.sleep(1)
 
@@ -141,7 +135,6 @@ class Game:
                                 self.changeTurn()
                                 
                             else:
-                                print("ACERTOOOU")
 
                                 if self.turn == 1:
                                     print("limpa 1")
@@ -189,8 +182,10 @@ class Game:
 
             if score1>score2:
                 self.display.blit(self.font.render('PLAYER 1 GANHOU!', False, (0, 255, 0)), (self.width/3,400))
-            else:
+            elif score2>score1:
                 self.display.blit(self.font.render('PLAYER 2 GANHOU!', False, (0, 0, 255)), (self.width/3,400))
+            else:
+                self.display.blit(self.font.render('EMPATE', False, (255, 255, 255)), (self.width/3,400))
 
             pygame.draw.rect(self.display, (170, 170, 170), pygame.Rect(2*self.width/5-35, self.height/2, 200, 30))
             self.display.blit(self.font.render('jogar novamente', False, (10, 10, 10)), (2*self.width/5 - 20, self.height/2+5))
