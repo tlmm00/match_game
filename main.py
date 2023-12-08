@@ -28,6 +28,13 @@ class Game:
 
         self.font = None
 
+        self.isMatch = False
+
+        # self.count = 0
+
+        self.clock = None 
+
+
     def changeTurn(self):
         if self.turn == 1:
             self.activePlayer = self.p2
@@ -41,7 +48,8 @@ class Game:
         pygame.init()
         pygame.font.init()
 
-        self.display=pygame.display.set_mode((self.width, self.height))
+        self.clock = pygame.time.Clock()
+        self.display = pygame.display.set_mode((self.width, self.height))
         self.running = True
 
         self.p1 = Player()
@@ -122,6 +130,10 @@ class Game:
                                 print("ERROUUUU")
                                 
                                 #TODO delay até a carta virar novamente
+                                # self.clock.tick(30)
+                                self.onRender()
+                                time.sleep(1)
+                                
                                 self.c1.restore()
                                 self.c2.restore()
 
@@ -129,7 +141,10 @@ class Game:
                                 
                             else:
                                 print("ACERTOOOU")
-                                
+                                self.c1.setIsMatchTrue()
+                                self.c2.setIsMatchTrue()
+                                self.isMatch = True
+
                                 if self.turn == 1:
                                     print("limpa 1")
                                     self.display.blit(self.font.render(str(self.p1.getScore()), False, (0, 0, 0)), (40,450))
@@ -152,8 +167,8 @@ class Game:
         for card in self.cards:
             x, y = card.getPoints()[0:2]
             color = card.getColor()
+            
             pygame.draw.rect(self.display, color, pygame.Rect(x, y, 50, 50))
-
             self.display.blit(self.font.render(str(card.getValue()), False, (255, 0, 0)), (x+20,y+20))
 
         

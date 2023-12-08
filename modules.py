@@ -1,3 +1,4 @@
+import time
 class Player:
     def __init__(self):
         self.score=0
@@ -21,6 +22,7 @@ class Card:
         self.x = x
         self.y = y
         self.color = (255, 0, 0)
+        self.isMatch = False
 
     def restore(self):
         self.show = False
@@ -39,6 +41,11 @@ class Card:
         self.color = (255, 150, 150)
         self.show = True
         
+    def getIsMatch(self):
+        return self.isMatch
+    
+    def setIsMatchTrue(self):
+        self.isMatch = True
 
     def getPoints(self):
         maxX = self.x + self.width
