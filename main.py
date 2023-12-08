@@ -9,7 +9,7 @@ class Game:
         pygame.init()
         pygame.font.init()
 
-        self.width = 600
+        self.width = 560
         self.height = 600
 
         self.running = True
@@ -31,9 +31,6 @@ class Game:
         self.c2 = None
 
         self.font = pygame.font.SysFont('Comic Sans MS', 30)
-
-
-        # self.count = 0
 
     def changeTurn(self):
         if self.turn == 1:
@@ -60,21 +57,19 @@ class Game:
             v = random.randint(0, len(value_dict) - 1)
             print(i, v)
             while value_dict[v][1] >= 2:
-                v = random.randint(0, len(value_dict) - 1)
-                print("tentando novamente...")
-            
+                v = random.randint(0, len(value_dict) - 1)            
 
             if i < len(value_dict)/2:
-                new_card = Card(value_dict[v][0], 30+dx1, 50)
+                new_card = Card(value_dict[v][0], 30+dx1, 30)
                 dx1+=75
             elif i < len(value_dict):
-                new_card = Card(value_dict[v][0], 30+dx2, 130)
+                new_card = Card(value_dict[v][0], 30+dx2, 110)
                 dx2+=75
             elif i < 1.5*len(value_dict):
-                new_card = Card(value_dict[v][0], 30+dx3, 230)
+                new_card = Card(value_dict[v][0], 30+dx3, 190)
                 dx3+=75
             else:
-                new_card = Card(value_dict[v][0], 30+dx4, 330)
+                new_card = Card(value_dict[v][0], 30+dx4, 270)
                 dx4+=75
 
             value_dict[v][1] += 1
@@ -170,11 +165,11 @@ class Game:
 
         
         if self.turn == 1: # turno jogador 1
-            self.display.blit(self.font.render('player 2', False, (0, 0, 0)), (self.width/2 - 40,400))
-            self.display.blit(self.font.render('player 1', False, (0, 255, 0)), (self.width/2 - 40,400))
+            self.display.blit(self.font.render('player 2', False, (0, 0, 0)), (self.width/2 - 35,400))
+            self.display.blit(self.font.render('player 1', False, (0, 255, 0)), (self.width/2 - 35,400))
         elif self.turn == 2: # turno jogador 2
-            self.display.blit(self.font.render('player 1', False, (0, 0, 0)), (self.width/2 - 40,400))
-            self.display.blit(self.font.render('player 2', False, (0, 0, 255)), (self.width/2 - 40,400))
+            self.display.blit(self.font.render('player 1', False, (0, 0, 0)), (self.width/2 - 35,400))
+            self.display.blit(self.font.render('player 2', False, (0, 0, 255)), (self.width/2 - 35,400))
 
         
         if self.turn == 1:
