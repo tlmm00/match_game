@@ -88,17 +88,19 @@ class Game:
             if event.button == 1:
                 if self.isOver:
                     x,y = event.pos
-                    if (x>2*self.width/5-35 and x<2*self.width/5+165 and y>self.height/2 and y<self.height/2 + 20):
-                        pygame.draw.rect(self.display, (0, 0, 0), pygame.Rect(2*self.width/5-35, self.height/2, 200, 30))
-                        self.display.blit(self.font.render('jogar novamente', False, (0, 0, 0)), (2*self.width/5 - 20, self.height/2+5))       
+                    if (x>2*self.width/5-35 and x<2*self.width/5+165 and y>3*self.height/4 and y<3*self.height/4 + 20):
+                        pygame.draw.rect(self.display, (0, 0, 0), pygame.Rect(2*self.width/5-35, 3*self.height/4, 200, 30))
+                        self.display.blit(self.font.render('jogar novamente', False, (0, 0, 0)), (2*self.width/5 - 20, 3*self.height/4 + 5))       
 
                         score1 = self.p1.getScore()
                         score2 = self.p2.getScore()
 
                         if score1>score2:
                             self.display.blit(self.font.render('PLAYER 1 GANHOU!', False, (0, 0, 0)), (self.width/3,400))
-                        else:
+                        elif score2>score1:
                             self.display.blit(self.font.render('PLAYER 2 GANHOU!', False, (0, 0, 0)), (self.width/3,400))
+                        else:
+                            self.display.blit(self.font.render('EMPATE', False, (0, 0, 0)), (self.width/3,400))
 
                         self.isOver = False
                         for card in self.cards:
@@ -135,12 +137,9 @@ class Game:
                                 self.changeTurn()
                                 
                             else:
-
                                 if self.turn == 1:
-                                    print("limpa 1")
                                     self.display.blit(self.font.render(str(self.p1.getScore()), False, (0, 0, 0)), (40,450))
                                 elif self.turn == 2:
-                                    print("limpa 2")
                                     self.display.blit(self.font.render(str(self.p2.getScore()), False, (0, 0, 0)), (80,450))
 
                                 self.activePlayer.addScore()
@@ -187,8 +186,8 @@ class Game:
             else:
                 self.display.blit(self.font.render('EMPATE', False, (255, 255, 255)), (self.width/3,400))
 
-            pygame.draw.rect(self.display, (170, 170, 170), pygame.Rect(2*self.width/5-35, self.height/2, 200, 30))
-            self.display.blit(self.font.render('jogar novamente', False, (10, 10, 10)), (2*self.width/5 - 20, self.height/2+5))
+            pygame.draw.rect(self.display, (170, 170, 170), pygame.Rect(2*self.width/5-35, 3*self.height/4, 200, 30))
+            self.display.blit(self.font.render('jogar novamente', False, (10, 10, 10)), (2*self.width/5 - 20,  3*self.height/4 + 5))
         
         pygame.display.flip()
             

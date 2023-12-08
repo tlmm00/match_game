@@ -1,4 +1,3 @@
-import time
 class Player:
     def __init__(self):
         self.score=0
@@ -21,7 +20,7 @@ class Card:
         self.show = False
         self.x = x
         self.y = y
-        self.color = (255, 0, 0)
+        self.color = (255, 255, 255)
         
     def restore(self):
         self.show = False
